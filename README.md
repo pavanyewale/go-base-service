@@ -32,9 +32,6 @@ This is a simple service designed to demonstrate how to structure code in Go.
 
 Here's a basic overview of the project structure:
 ```bash
-.
-├── pkg/ # Packages that can be reused across the project
-│ └── ... # Add your reusable packages here
 ├── controller/ # Private application and library code
 │ ├── grpc/ # GRPC controller
 │ ├── http/ # HTTP controller
