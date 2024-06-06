@@ -1,0 +1,22 @@
+info:
+  contact: {}
+paths:
+  /gobaseservice/ping:
+    get:
+      consumes:
+      - application/json
+      description: Check if the server is alive
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Okay, I am alive!
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema: {}
+      summary: Ping the server
+      tags:
+      - Health
+swagger: "2.0"
