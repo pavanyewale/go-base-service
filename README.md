@@ -1,7 +1,7 @@
 # Go Base Service
 
 This is a simple service designed to demonstrate how to structure code in Go.
-![Go Logo](golang.png)
+<img src="golang.png" alt="Go Logo" width="200"/>
 ## Prerequisites
 
 - Go version 1.22.4 or above installed
