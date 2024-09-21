@@ -4,10 +4,10 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"gobaseservice/configs"
-	"gobaseservice/controller"
-	"gobaseservice/repository"
-	"gobaseservice/service"
+	"gobaseservice/cmd/grpc_server"
+	"gobaseservice/cmd/http_server"
+	"gobaseservice/internal/configs"
+	"gobaseservice/internal/constants"
 
 	"github.com/gofreego/goutils/apputils"
 	"github.com/gofreego/goutils/configutils"
@@ -21,8 +21,8 @@ var (
 )
 
 type Application interface {
-	GetName() string
-	Shutdown(ctx context.Context)
+	Run(ctx context.Context)
+	apputils.Application
 }
 
 func main() {
@@ -47,11 +47,25 @@ func main() {
 	// logging config for debug
 	bytes, _ := yaml.Marshal(conf)
 	logger.Debug(ctx, "\n%s", bytes)
-	// starting application
 
-	repo := repository.NewRepository(ctx, &conf.Repository)
-	serviceFactory := service.NewServiceFactory(ctx, &conf.Service, repo)
-	cntlr := controller.NewController(ctx, &conf.Controller, serviceFactory)
-	go cntlr.Listen(ctx)
-	apputils.GracefulShutdown(ctx, cntlr)
+	// starting application
+	var apps []Application
+	for _, appName := range conf.AppNames {
+		switch appName {
+		case constants.HTTP_SERVER:
+			apps = append(apps, http_server.NewHTTPServer(&conf))
+		case constants.GRPC_SERVER:
+			apps = append(apps, grpc_server.NewGRPCServer(&conf))
+		default:
+			logger.Panic(ctx, "invalid application name provided `%s`", appName)
+		}
+	}
+	apps_to_graceful_shutdown := make([]apputils.Application, len(apps))
+	for _, app := range apps {
+		logger.Info(ctx, "Starting %s", app.Name())
+		go app.Run(ctx)
+		apps_to_graceful_shutdown = append(apps_to_graceful_shutdown, app)
+	}
+
+	apputils.GracefulShutdown(ctx, apps_to_graceful_shutdown...)
 }

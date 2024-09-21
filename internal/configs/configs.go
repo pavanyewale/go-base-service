@@ -1,17 +1,22 @@
 package configs
 
 import (
-	"gobaseservice/controller"
-	"gobaseservice/repository"
-	"gobaseservice/service"
+	"gobaseservice/internal/repository"
+	"gobaseservice/internal/service"
 
 	"github.com/gofreego/goutils/logger"
 )
 
 type Configuration struct {
 	Name       string
+	AppNames   []string
 	Logger     logger.Config
-	Controller controller.Config
 	Service    service.Config
 	Repository repository.Config
+	Server     Server
+}
+
+type Server struct {
+	GRPCPort int
+	HTTPPort int
 }

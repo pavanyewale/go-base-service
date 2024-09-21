@@ -1,4 +1,8 @@
 name: "go-base-service"
+appnames: ["HTTP_SERVER", "GRPC_SERVER"]
+Server:
+    HTTPPort: 8080
+    GRPCPort: 8081
 logger:
     appname: "go-base-service"
     build: "dev"

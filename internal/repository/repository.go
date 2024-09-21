@@ -2,8 +2,8 @@ package repository
 
 import (
 	"context"
-	"gobaseservice/repository/redis"
-	"gobaseservice/service"
+	"gobaseservice/internal/repository/redis"
+	"gobaseservice/internal/service"
 )
 
 const (

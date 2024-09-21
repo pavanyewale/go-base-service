@@ -9,6 +9,7 @@ This is a simple service designed to demonstrate how to structure code in Go.
 ## Prerequisites
 
 - Go version 1.22.4 or above installed
+- buf is installed 
 
 ## How to Run
 
@@ -31,34 +32,6 @@ This is a simple service designed to demonstrate how to structure code in Go.
     make docker
     make docker-run
     ```
-
-## Project Structure
-
-Here's a basic overview of the project structure:
-```bash
-├── controller/ # Private application and library code
-│ ├── grpc/ # GRPC controller
-│ ├── http/ # HTTP controller
-│ └── controller.go # is initialisation of controller is here
-├── service/ # business logic
-│ ├── service1/ # service 1 logic is here
-│ ├── ping/ # ping service logic is here
-│ ├── ...
-│ └── service.go # is initialisation of service business logic factory is here
-├── repository/ # data store
-│ ├── mongo/ # mongo repository
-│ ├── mssql/ # mssql repository
-│ ├── ...
-│ └── repository.go # switch of the repository is here
-├── configs/ # Configuration files
-│ └── configs.go # Configuration management
-├── docs/ # Documentation files
-│ └── swagger/ # Swagger files for API documentation
-├── Makefile # Makefile for running tasks
-└── README.md # Project overview (this file)
-└── Dockerfile # for dockerise the application
-└── main.go # start of the application
-```
 
 ## Development Notes
 

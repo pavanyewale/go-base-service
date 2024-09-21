@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"gobaseservice/service/ping"
+	"gobaseservice/internal/service/ping"
 )
 
 type Config struct {

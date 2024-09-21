@@ -15,5 +15,15 @@ docker: build-linux
 docker-run:
 	docker run -p 8080:8080 go-base-service
 
+install: 
+	go mod tidy
+	go install \
+    github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway \
+    github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2 \
+    google.golang.org/protobuf/cmd/protoc-gen-go \
+    google.golang.org/grpc/cmd/protoc-gen-go-grpc
+
 setup:
+	buf dep update
+	buf generate ./proto/v1/*.proto
 	go mod tidy
