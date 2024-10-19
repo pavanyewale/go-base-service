@@ -1,0 +1,35 @@
+syntax = "proto3";
+package v1;
+
+option go_package = "pkg/api/gobaseservice";
+
+import "google/api/annotations.proto";
+
+//Description BaseService is a simple service providing ping endpoints.
+service BaseService {
+    
+    // Ping is a simple GET request that returns a Pong message.
+    rpc Ping (PingRequest) returns (PingResponse) {
+        option (google.api.http) = {
+            get: "/v1/ping"
+        };
+    }
+
+    // PingPost is a POST request that returns a Pong message.
+    rpc PingPost (PingRequest) returns (PingResponse) {
+        option (google.api.http) = {
+            post: "/v1/ping"
+            body: "*"
+        };
+    }
+}
+
+// PingRequest is the request message for the Ping and PingPost RPC methods.
+message PingRequest {
+    string message = 1;
+}
+
+// PingResponse is the response message for the Ping and PingPost RPC methods.
+message PingResponse {
+    string message = 1;
+}

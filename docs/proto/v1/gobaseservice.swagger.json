@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "proto/v1/ping.proto",
+    "title": "proto/v1/gobaseservice.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "PingService"
+      "name": "BaseService"
     }
   ],
   "consumes": [
@@ -17,8 +17,38 @@
   ],
   "paths": {
     "/v1/ping": {
+      "get": {
+        "summary": "Ping is a simple GET request that returns a Pong message.",
+        "operationId": "BaseService_Ping",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/v1PingResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "message",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "BaseService"
+        ]
+      },
       "post": {
-        "operationId": "PingService_Ping",
+        "summary": "PingPost is a POST request that returns a Pong message.",
+        "operationId": "BaseService_PingPost",
         "responses": {
           "200": {
             "description": "A successful response.",
@@ -36,6 +66,7 @@
         "parameters": [
           {
             "name": "body",
+            "description": "PingRequest is the request message for the Ping and PingPost RPC methods.",
             "in": "body",
             "required": true,
             "schema": {
@@ -44,7 +75,7 @@
           }
         ],
         "tags": [
-          "PingService"
+          "BaseService"
         ]
       }
     }
@@ -79,7 +110,13 @@
       }
     },
     "v1PingRequest": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      },
+      "description": "PingRequest is the request message for the Ping and PingPost RPC methods."
     },
     "v1PingResponse": {
       "type": "object",
@@ -87,7 +124,8 @@
         "message": {
           "type": "string"
         }
-      }
+      },
+      "description": "PingResponse is the response message for the Ping and PingPost RPC methods."
     }
   }
 }

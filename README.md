@@ -10,6 +10,9 @@ This is a simple service designed to demonstrate how to structure code in Go.
 
 - Go version 1.22.4 or above installed
 - buf is installed 
+   ``` 
+   brew install bufbuild/buf/buf
+   ```
 
 ## How to Run
 
@@ -35,7 +38,7 @@ This is a simple service designed to demonstrate how to structure code in Go.
 
 ## Development Notes
 
-- **Configuration**: The configuration settings can be managed in `configs/configs.go`.
+- **Configuration**: The configuration settings can be managed in `internal/configs/configs.go`.
 - **Logging**: Ensure proper logging is implemented for easier debugging and monitoring.
 - **Error Handling**: Consistent error handling throughout the codebase.
 

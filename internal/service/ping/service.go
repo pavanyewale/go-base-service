@@ -2,7 +2,9 @@ package ping
 
 import (
 	"context"
-	"gobaseservice/pkg/api/v1/ping"
+	"gobaseservice/pkg/api/gobaseservice"
+
+	"github.com/gofreego/goutils/logger"
 )
 
 type Config struct {
@@ -15,16 +17,19 @@ type Repository interface {
 type Service struct {
 	cfg  *Config
 	repo Repository
-	ping.UnimplementedPingServiceServer
+	gobaseservice.UnimplementedBaseServiceServer
 }
 
 // Ping implements ping.PingServiceServer.
-func (s *Service) Ping(ctx context.Context, req *ping.PingRequest) (*ping.PingResponse, error) {
+func (s *Service) Ping(ctx context.Context, req *gobaseservice.PingRequest) (*gobaseservice.PingResponse, error) {
+	logger.Debug(ctx, "Ping request received, %v", req.Message)
 	err := s.repo.Ping(ctx)
 	if err != nil {
 		return nil, err
 	}
-	return &ping.PingResponse{}, nil
+	return &gobaseservice.PingResponse{
+		Message: "Pong",
+	}, nil
 }
 
 func NewService(ctx context.Context, cfg *Config, repo Repository) *Service {
@@ -33,6 +38,3 @@ func NewService(ctx context.Context, cfg *Config, repo Repository) *Service {
 		repo: repo,
 	}
 }
-
-// func (s *Service) Ping(ctx context.Context) error {
-// }

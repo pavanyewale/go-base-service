@@ -13,8 +13,3 @@ plugins:
   
   - plugin: openapiv2
     out: docs
-  
-
-
-  # - plugin: grpc-gateway
-  #   out: ./

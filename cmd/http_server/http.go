@@ -6,12 +6,12 @@ import (
 	"gobaseservice/internal/configs"
 	"gobaseservice/internal/repository"
 	"gobaseservice/internal/service"
-	"gobaseservice/pkg/api/v1/ping"
+	"gobaseservice/pkg/api/gobaseservice"
+	"gobaseservice/pkg/utils"
 	"net/http"
 
 	"github.com/gofreego/goutils/logger"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
-	// Update
 )
 
 type HTTPServer struct {
@@ -46,8 +46,8 @@ func (a *HTTPServer) Run(ctx context.Context) {
 	serviceSf := service.NewServiceFactory(ctx, &a.cfg.Service, repository)
 
 	mux := runtime.NewServeMux()
-
-	err := ping.RegisterPingServiceHandlerServer(ctx, mux, serviceSf.PingService)
+	utils.RegisterSwaggerHandler(ctx, mux, "/swagger", "./docs/proto/", "/v1/gobaseservice.swagger.json")
+	err := gobaseservice.RegisterBaseServiceHandlerServer(ctx, mux, serviceSf.PingService)
 	if err != nil {
 		logger.Panic(ctx, "failed to register ping service : %v", err)
 	}
@@ -57,7 +57,7 @@ func (a *HTTPServer) Run(ctx context.Context) {
 	}
 
 	logger.Info(ctx, "Starting HTTP server on port %d", a.cfg.Server.HTTPPort)
-
+	logger.Info(ctx, "Swagger UI is available at `http://localhost:%d/swagger`", a.cfg.Server.HTTPPort)
 	// Start HTTP server (and proxy calls to gRPC server endpoint)
 	err = a.server.ListenAndServe()
 	if err != nil && err != http.ErrServerClosed {
